@@ -1,0 +1,33 @@
+!SESSION 2026-05-09 14:59:29.210 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-05-09 15:00:08.830
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-05-09 15:00:08.832
+!MESSAGE Log4j2 initialized with config file C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-05-09 15:00:13.836
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2026-05-09 15:00:40.769 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-05-09 15:00:48.004
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-05-09 15:00:48.006
+!MESSAGE Log4j2 initialized with config file C:\Users\Mauro\Desktop\CESE\Bimestre 2\RTOS I\sotri-tp1_2026-1erC_1-05\TP1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-05-09 15:00:51.523
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-05-09 15:04:45.251
+!MESSAGE Indexed 'sotri-tp1_01-application' (41 sources, 139 headers) in 5.64 sec: 15,815 declarations; 76,164 references; 7 unresolved inclusions; 1,425 syntax errors; 1,550 unresolved names (1.7%)
