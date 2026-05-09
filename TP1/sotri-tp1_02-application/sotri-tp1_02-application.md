@@ -48,4 +48,14 @@ vTaskDelete(NULL); // Elimina la tarea que llama a la funcion
 
 # Actividad 2 - Paso 3
 
-Observamos que la tarea con mayor prioridad se ejecuta indefinidamente lo que resulta en que nunca switchea el led.
+Se aumento la prioridad a la tarea del boton por lo que se observo que la tarea del led nunca se ejecuto:
+
+```
+[info] Task BTN is running - Tick [mS] =   0
+[info]  Task BTN - BTN PRESSED
+[info]  Task BTN - BTN HOVER
+[info]  Task BTN - BTN PRESSED
+[info]  Task BTN - BTN HOVER
+```
+
+Esto es debido a que la tarea del boton nunca suelta el recurso y por lo tanto se ejecuta indefinidamente.
