@@ -57,13 +57,13 @@
 #define EV_SYS_LOOP_DET		1ul
 
 /********************** internal data declaration ****************************/
-task_btn_dta_t task_btn_dta = {
+/*task_btn_dta_t task_btn_dta = {
 		EV_BTN_XX_UP, ST_BTN_XX_UP, DEL_BTN_XX_MIN,
 		B1_GPIO_Port, B1_Pin
-};
+};*/
 
 /********************** internal functions declaration ***********************/
-void task_btn_statechart(void);
+void task_btn_statechart(task_btn_dta_t*);
 
 /********************** internal data definition *****************************/
 
@@ -71,11 +71,41 @@ void task_btn_statechart(void);
 
 /********************** external functions definition ************************/
 /* Task BTN thread */
-void task_btn(void *parameters)
+void task_btn1(void *parameters)
 {
+	PeripheralConfig_t* aux = (PeripheralConfig_t*)parameters;
+	task_btn_dta_t btn1;
+	btn1.gpio_port = aux->port; //port del parametro
+	btn1.pin = aux->pin;//pin del parametro
 	/* Print out: Task Initialized */
 	LOGGER_INFO(" ");
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
+	if(parameters==NULL)
+	{return;}
+
+
+	/* As per most tasks, this task is implemented in an infinite loop. */
+	for (;;)
+	{
+		/* Print out: Task execution */
+		//LOGGER_INFO(" %s - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
+		/* Run Task Statechart */
+    	task_btn_statechart(&btn1);
+	}
+}
+
+void task_btn2(void *parameters)
+{
+	PeripheralConfig_t* aux = (PeripheralConfig_t*)parameters;
+	task_btn_dta_t btn2;
+	btn2.gpio_port = aux->port; //port del parametro
+	btn2.pin = aux->pin;//pin del parametro
+	/* Print out: Task Initialized */
+	LOGGER_INFO(" ");
+	LOGGER_INFO("%s is running - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
+	if(parameters==NULL)
+	{return;}
+
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
@@ -84,50 +114,50 @@ void task_btn(void *parameters)
 		//LOGGER_INFO(" %s - Tick [mS] = %3d", pcTaskGetName(NULL), (int)xTaskGetTickCount());
 
 		/* Run Task Statechart */
-    	task_btn_statechart();
+    	task_btn_statechart(&btn2);
 	}
 }
 
-void task_btn_statechart(void)
+void task_btn_statechart(task_btn_dta_t* dta)
 {
 	/* Get Events to excite Task */
-	if (BTN_PRESSED == HAL_GPIO_ReadPin(task_btn_dta.gpio_port, task_btn_dta.pin))
+	if (BTN_PRESSED == HAL_GPIO_ReadPin(dta->gpio_port, dta->pin))
 	{
-		task_btn_dta.event = EV_BTN_XX_DOWN;
+		dta->event = EV_BTN_XX_DOWN;
 	}
 	else
 	{
-		task_btn_dta.event = EV_BTN_XX_UP;
+		dta->event = EV_BTN_XX_UP;
 	}
 
 	/* Run to Completion Statechart */
-	switch (task_btn_dta.state)
+	switch (dta->state)
 	{
 		case ST_BTN_XX_UP:
 
-			if (EV_BTN_XX_DOWN == task_btn_dta.event)
+			if (EV_BTN_XX_DOWN == dta->event)
 			{
-				task_btn_dta.tick = xTaskGetTickCount();
-				task_btn_dta.state = ST_BTN_XX_FALLING;
+				dta->tick = xTaskGetTickCount();
+				dta->state = ST_BTN_XX_FALLING;
 			}
 
 			break;
 
 		case ST_BTN_XX_FALLING:
 
-			if (DEL_BTN_XX_MAX <= (xTaskGetTickCount() - task_btn_dta.tick))
+			if (DEL_BTN_XX_MAX <= (xTaskGetTickCount() - dta->tick))
 			{
-				if (EV_BTN_XX_DOWN == task_btn_dta.event)
+				if (EV_BTN_XX_DOWN == dta->event)
 				{
 					/* Print out: Task execution */
 					LOGGER_INFO(" %s - BTN PRESSED", pcTaskGetName(NULL));
 
 					put_event_task_led(EV_LED_XX_BLINK);
-					task_btn_dta.state = ST_BTN_XX_DOWN;
+					dta->state = ST_BTN_XX_DOWN;
 				}
 				else
 				{
-					task_btn_dta.state = ST_BTN_XX_UP;
+					dta->state = ST_BTN_XX_UP;
 				}
 			}
 
@@ -135,29 +165,29 @@ void task_btn_statechart(void)
 
 		case ST_BTN_XX_DOWN:
 
-			if (EV_BTN_XX_UP == task_btn_dta.event)
+			if (EV_BTN_XX_UP == dta->event)
 			{
-				task_btn_dta.tick = xTaskGetTickCount();
-				task_btn_dta.state = ST_BTN_XX_RISING;
+				dta->tick = xTaskGetTickCount();
+				dta->state = ST_BTN_XX_RISING;
 			}
 
 			break;
 
 		case ST_BTN_XX_RISING:
 
-			if (DEL_BTN_XX_MAX <= (xTaskGetTickCount() - task_btn_dta.tick))
+			if (DEL_BTN_XX_MAX <= (xTaskGetTickCount() - dta->tick))
 			{
-				if (EV_BTN_XX_UP == task_btn_dta.event)
+				if (EV_BTN_XX_UP == dta->event)
 				{
 					/* Print out: Task execution */
 					LOGGER_INFO(" %s - BTN HOVER", pcTaskGetName(NULL));
 
 					put_event_task_led(EV_LED_XX_OFF);
-					task_btn_dta.state = ST_BTN_XX_UP;
+					dta->state = ST_BTN_XX_UP;
 				}
 				else
 				{
-					task_btn_dta.state = ST_BTN_XX_DOWN;
+					dta->state = ST_BTN_XX_DOWN;
 				}
 			}
 
@@ -165,13 +195,12 @@ void task_btn_statechart(void)
 
 		default:
 
-			task_btn_dta.tick  = xTaskGetTickCount();
-			task_btn_dta.state = ST_BTN_XX_UP;
-			task_btn_dta.event = EV_BTN_XX_UP;
+			dta->tick  = xTaskGetTickCount();
+			dta->state = ST_BTN_XX_UP;
+			dta->event = EV_BTN_XX_UP;
 
 			break;
 	}
-
 }
 
 /********************** end of file ******************************************/

@@ -49,7 +49,8 @@ extern "C" {
 /********************** external data declaration ****************************/
 
 /********************** external functions declaration ***********************/
-extern void task_btn(void *parameters);
+extern void task_btn1(void *parameters);
+extern void task_btn2(void *parameters);
 
 /********************** End of CPP guard *************************************/
 #ifdef __cplusplus

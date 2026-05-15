@@ -58,8 +58,14 @@ extern uint32_t g_app_stack_overflow_cnt;
  * with other thread or to ensure mutual exclusive access to...*/
 
 /* Declare a variable of type TaskHandle_t. This is used to reference threads. */
-extern TaskHandle_t h_task_btn;
+extern TaskHandle_t h_task_btn1;
+extern TaskHandle_t h_task_btn2;
 extern TaskHandle_t h_task_led;
+
+typedef struct {
+    GPIO_TypeDef* port;  //
+    uint16_t pin;        //
+} PeripheralConfig_t;
 
 /********************** external functions declaration ***********************/
 extern void app_init(void);
