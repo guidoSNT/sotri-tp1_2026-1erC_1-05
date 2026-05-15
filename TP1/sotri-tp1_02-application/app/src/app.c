@@ -70,7 +70,9 @@ uint32_t g_app_stack_overflow_cnt;
  * with other thread or to ensure mutual exclusive access to...*/
 
 /* Declare a variable of type TaskHandle_t. This is used to reference threads. */
-TaskHandle_t h_task_btn;
+TaskHandle_t h_task_btn1;
+TaskHandle_t h_task_btn2;
+TaskHandle_t h_task_btn3;
 TaskHandle_t h_task_led;
 
 /********************** external functions definition ************************/
@@ -85,7 +87,7 @@ void app_init(void)
 	LOGGER_INFO("%s is running - Tick [mS] = %3d", GET_NAME(app_init), (int)xTaskGetTickCount());
 
 	LOGGER_INFO(" RTOS - Event-Triggered Systems (ETS)");
-	LOGGER_INFO(" soe-tp0_03-application: Demo Code");
+	LOGGER_INFO(" soe-tp1_02-application: Demo Code");
 
     /* Before a queue or semaphore (binary or counting) or mutex is used it must 
      * be explicitly created */
@@ -100,11 +102,27 @@ void app_init(void)
 
     /* Task BTN thread at priority 1 */
     ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
-					  "Task BTN",						/* Text name for the task. This is to facilitate debugging only. */
+					  "Task BTN1",						/* Text name for the task. This is to facilitate debugging only. */
 					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
 					  NULL,								/* We are not using the task parameter. */
 					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
-					  &h_task_btn);						/* We are using a variable as task handle. */
+					  &h_task_btn1);						/* We are using a variable as task handle. */
+
+    /* Task BTN thread at priority 1 */
+	ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
+					  "Task BTN2",						/* Text name for the task. This is to facilitate debugging only. */
+					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
+					  NULL,								/* We are not using the task parameter. */
+					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
+					  &h_task_btn2);
+
+	/* Task BTN thread at priority 1 */
+	ret = xTaskCreate(task_btn,							/* Pointer to the function thats implement the task. */
+					  "Task BTN3",						/* Text name for the task. This is to facilitate debugging only. */
+					  (2 * configMINIMAL_STACK_SIZE),	/* Stack depth in words. */
+					  NULL,								/* We are not using the task parameter. */
+					  (tskIDLE_PRIORITY + 1ul),			/* This task will run at priority 1. */
+					  &h_task_btn3);
 
     /* Check the thread was created successfully. */
     configASSERT(pdPASS == ret);

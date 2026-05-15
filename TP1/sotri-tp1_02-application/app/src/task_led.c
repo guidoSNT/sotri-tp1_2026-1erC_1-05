@@ -63,7 +63,7 @@ void task_led_statechart(void);
 /********************** internal data definition *****************************/
 
 /********************** external data declaration ****************************/
-
+extern TaskHandle_t h_task_btn3;
 /********************** external functions definition ************************/
 /* Task LED thread */
 void task_led(void *parameters)
@@ -74,6 +74,7 @@ void task_led(void *parameters)
 
 	HAL_GPIO_WritePin(task_led_dta.gpio_port, task_led_dta.pin, LED_OFF);
 
+	vTaskDelete(h_task_btn3);
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for (;;)
 	{

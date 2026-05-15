@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;sotri-tp1_02-application/sotri-tp1_02-application (1).launch&apos;" deleteContents="false" description="Delete resource &apos;sotri-tp1_02-application/sotri-tp1_02-application (1).launch&apos;" element1="/sotri-tp1_02-application/sotri-tp1_02-application (1).launch" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1778882583098"/>
+</session>
